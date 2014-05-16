@@ -583,7 +583,6 @@ int main(int argc, char** argv) {
       index++;
     }
     
-
     list< pop > tdat, bdat, zdat;
 
     vector<long int> positions;
