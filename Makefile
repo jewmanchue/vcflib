@@ -2,6 +2,7 @@
 HEADERS = src/Variant.h \
 		  src/split.h \
 		  src/pdflib.hpp \
+		  src/var.hpp \
                   src/cdflib.hpp \
 		  src/rnglib.hpp \
 		  src/join.h
@@ -9,6 +10,7 @@ SOURCES = src/Variant.cpp \
 		  src/rnglib.cpp \
 		  src/pdflib.cpp \
 		  src/cdflib.cpp \
+		  src/var.cpp \
 		  src/split.cpp
 OBJECTS= $(SOURCES:.cpp=.o)
 
@@ -18,6 +20,7 @@ OBJECTS= $(SOURCES:.cpp=.o)
 BIN_SOURCES = src/vcfecho.cpp \
 			  src/bFst.cpp \
 			  src/wcFst.cpp \
+			  src/phaseEHHr.cpp \
 			  src/gl-XPEHH.cpp \
 			  src/smoother.cpp \
 			  src/pFst.cpp \
