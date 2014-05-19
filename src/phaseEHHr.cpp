@@ -50,20 +50,16 @@ double EHH(string haplotypes[][2], int nhaps){
 
 }
 
-
-void printHaplotypes(string haps[][2], int ntargets){
-  for(int snp = 0; snp < haps[0][1].length(); snp++){
-    for(int ind = 0; ind < ntargets; ind++){
-      cout << haps[ind][0].substr(snp , 1) << "\t";
-      cout << haps[ind][1].substr(snp , 1) << "\t";
-    }
-    cout << endl;
+void clearHaplotypes(string haplotypes[][2], int ntarget){
+  for(int i= 0; i < ntarget; i++){
+    haplotypes[i][0].clear();
+    haplotypes[i][1].clear();
   }
 }
 
 void loadImprovement(string tmpHaplotypes[][2], string haplotypes[][2], int ntarget){
 
-  for(int i= 0; i < ntarget; i++){
+   for(int i= 0; i < ntarget; i++){
     haplotypes[i][0] = tmpHaplotypes[i][0];
     haplotypes[i][1] = tmpHaplotypes[i][1];
   }
@@ -71,15 +67,25 @@ void loadImprovement(string tmpHaplotypes[][2], string haplotypes[][2], int ntar
 }
 
 void appendHaplotypes(string tmpHaplotypes[][2], string haplotypes[][2], int ntarget){ 
+
+  int totalL = 0;
+
+  if(tmpHaplotypes[0][0].size() > 15){
+    totalL = 15;
+  }
+  else{
+    totalL = tmpHaplotypes[0][0].size();
+  }
+
   for(int i= 0; i < ntarget; i++){
-    haplotypes[i][0].append(tmpHaplotypes[i][0].substr(5,15));
-    haplotypes[i][1].append(tmpHaplotypes[i][1].substr(5,15));
+    haplotypes[i][0].append(tmpHaplotypes[i][0].substr(5,totalL));
+    haplotypes[i][1].append(tmpHaplotypes[i][1].substr(5,totalL));
   }
 }
 
-void localPhase(string haplotypes[][2], list<pl> & window){
+void localPhase(string haplotypes[][2], list<genotype*> & window){
  
-  int ntarget =  window.front().genoLikelihoods.size();
+  int ntarget =  window.front()->genoLikelihoods.size();
   double ehhmax  =  -1;
   string totalHaplotypes[ntarget][2];
   
@@ -101,27 +107,31 @@ void localPhase(string haplotypes[][2], list<pl> & window){
     }
     
 
-    for(list<pl>::iterator pos = window.begin(); pos != window.end(); pos++){    
+    for(list< genotype* >::iterator pos = window.begin(); pos != window.end(); pos++){    
       
       int indIndex = 0;
 
-      for(vector<int>::iterator ind = pos->genoIndex.begin(); ind != pos->genoIndex.end(); ind++){      
-	int g = pos->genoIndex[indIndex];
-	double rang  = ((double)rand() / (double)(RAND_MAX));
-
-	//cerr <<  "g:0 " << pos->genoLikelihoodsCDF[indIndex][0] << endl;
-	//cerr <<  "g:1 " << pos->genoLikelihoodsCDF[indIndex][1] << endl;
-	//cerr <<  "g:2 " << pos->genoLikelihoodsCDF[indIndex][2] << endl;
-
-	if(rang < pos->genoLikelihoodsCDF[indIndex][0]){
-	  g = 0;
+      for(vector<int>::iterator ind = (*pos)->genoIndex.begin(); ind != (*pos)->genoIndex.end(); ind++){      
+	int g = (*pos)->genoIndex[indIndex];
+	if(g == -1){
+	  g = rand() % 3;
 	}
-	else if(rang < pos->genoLikelihoodsCDF[indIndex][1]){
-	  g = 1;
-	}
-	else{
-	  g = 2;
-	}	
+
+	//double rang  = ((double)rand() / (double)(RAND_MAX));
+	//
+	////cerr <<  "g:0 " << pos->genoLikelihoodsCDF[indIndex][0] << endl;
+	////cerr <<  "g:1 " << pos->genoLikelihoodsCDF[indIndex][1] << endl;
+	////cerr <<  "g:2 " << pos->genoLikelihoodsCDF[indIndex][2] << endl;
+	//
+	//if(rang < (*pos)->genoLikelihoodsCDF[indIndex][0]){
+	//  g = 0;
+	//}
+	//else if(rang < (*pos)->genoLikelihoodsCDF[indIndex][1]){
+	//  g = 1;
+	//}
+	//else{
+	//  g = 2;
+	//}	
 	if(g == 0 ){
           tempHaplotypes[indIndex][0].append("0");
           tempHaplotypes[indIndex][1].append("0");
@@ -340,18 +350,32 @@ int main(int argc, char** argv) {
    Variant var(variantFile);
    
    list< Variant > windowVcfData;
-   list< pl > windowGenotypeData; 
+   list< genotype * > windowGenotypeData; 
    
    int nsamples = variantFile.sampleNames.size();
 
    string haplotypes [nsamples][2];
    
    int nsnps = 0;
+
+   string currentSeqid = "NA";
    
    while (variantFile.getNextVariant(var)) {
-
+     
      if(var.alt.size() > 1){
        continue;
+     }
+
+     if(currentSeqid != var.sequenceName ){
+       if( windowGenotypeData.size() > 1){
+         localPhase(haplotypes, windowGenotypeData  );
+         printVCF(haplotypes,   windowVcfData, nsamples, nsnps);
+       }
+       clearHaplotypes(haplotypes, nsamples);
+       windowVcfData.clear();
+       windowGenotypeData.clear();
+       currentSeqid = var.sequenceName;
+       nsnps = 0;
      }
 
      map<string, map<string, vector<string> > >::iterator s     = var.samples.begin(); 
@@ -366,11 +390,13 @@ int main(int argc, char** argv) {
        total.push_back(sample);	
      }
 
-     pl population;
-
-     population.loadPop(total, var.sequenceName, var.position);
+     genotype * population;
+     population = new pl();
+     
+     population->loadPop(total, var.sequenceName, var.position);
 
      windowVcfData.push_back(var);
+
      windowGenotypeData.push_back(population);
 
      while(windowGenotypeData.size() >= 15 && !windowGenotypeData.empty()){
