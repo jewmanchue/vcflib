@@ -18,6 +18,7 @@ using namespace vcf;
 void printVersion(void){
 	    cerr << "INFO: version 1.1.0 ; date: April 2014 ; author: Zev Kronenberg; email : zev.kronenberg@utah.edu " << endl;
 	    exit(1);
+
 }
 
 void printHelp(void){
