@@ -282,12 +282,35 @@ int main(int argc, char** argv) {
 
 	double populationTargetEstAF = bound(populationTarget->alpha / (populationTarget->alpha + populationTarget->beta));
 
+	if(counts == 1){
+	  double alpT = 0.001;
+	  double betT = 0.001;
+	  double alphTol = 0.001;
+	  double betaTol = 0.001;
+	  populationTarget->alpha = alpT + populationTarget->nref;
+	  populationTarget->beta  = betT + populationTarget->nalt;
+	  populationTotal->alpha  = alphTol + populationTotal->nref;
+	  populationTotal->beta   = betaTol + populationTotal->nalt;
+	  
+	}
+
 	double tAlt  = log(r8_beta_pdf(populationTarget->alpha, populationTarget->beta, populationTargetEstAF));
 	double tNull = log(r8_beta_pdf(populationTotal->alpha, populationTotal->beta, populationTargetEstAF ));
 
-	double p = 2* (tAlt - tNull);
+	double l = 2* (tAlt - tNull);
+
+	int     which = 1;
+	double  p ;
+	double  q ;
+	double  x = l ;
+	double  df = 1;
+	int     status;
+	double  bound ;
 	
-	cout << var.sequenceName << "\t"  << var.position << "\t" << p << endl ;
+
+	cdfchi(&which, &p, &q, &x, &df, &status, &bound );
+	
+	cout << var.sequenceName << "\t"  << var.position << "\t" << 1-p << endl ;
 	
 	delete populationTarget;
 	delete populationBackground;
