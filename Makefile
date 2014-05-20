@@ -20,11 +20,15 @@ OBJECTS= $(SOURCES:.cpp=.o)
 BIN_SOURCES = src/vcfecho.cpp \
 			  src/bFst.cpp \
 			  src/wcFst.cpp \
-			  src/phaseEHHr.cpp \
-			  src/gl-XPEHH.cpp \
+			  src/phaseHHr.cpp \
+			  src/XPEHH.cpp \
+			  src/iHS.cpp \
 			  src/smoother.cpp \
 			  src/pFst.cpp \
 			  src/plotHaps.cpp \
+			  src/popStats.cpp \
+			  src/vcfsamplediff.cpp \
+			  src/vcfroc.cpp \
 #			  src/vcfaltcount.cpp \
 #			  src/vcfhetcount.cpp \
 #			  src/vcfhethomratio.cpp \
@@ -40,7 +44,6 @@ BIN_SOURCES = src/vcfecho.cpp \
 #			  src/vcfgenotypecompare.cpp \
 #			  src/vcffixup.cpp \
 #			  src/vcfclassify.cpp \
-#			  src/vcfsamplediff.cpp \
 #			  src/vcfremoveaberrantgenotypes.cpp \
 #			  src/vcfrandom.cpp \
 #			  src/vcfparsealts.cpp \
@@ -63,7 +66,6 @@ BIN_SOURCES = src/vcfecho.cpp \
 #			  src/vcfrandomsample.cpp \
 #			  src/vcfentropy.cpp \
 #			  src/vcfglxgt.cpp \
-#			  src/vcfroc.cpp \
 #			  src/vcfsom.cpp \
 #			  src/vcfcheck.cpp \
 #			  src/vcfstreamsort.cpp \
