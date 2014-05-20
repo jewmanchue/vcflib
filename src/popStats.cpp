@@ -27,7 +27,7 @@ void printHelp(void){
   cerr << "INFO: description:" << endl;
   cerr << "      General population genetic statistics for each SNP                                                                    " << endl << endl;
 
-  cerr << "Output : 3 columns :                 "    << endl;
+  cerr << "Output : 9 columns :                 "    << endl;
   cerr << "     1. seqid                        "    << endl;
   cerr << "     2. position                     "    << endl;
   cerr << "     3. target allele frequency      "    << endl;
