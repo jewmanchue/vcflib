@@ -20,4 +20,4 @@ with open(args.VCF) as t:
 					gt=':'.join(gt)
 					vars[i]=gt
 			line=line[:9]+vars
-			#print '\t'.join(line)
+			print '\t'.join(line)

@@ -43,8 +43,10 @@ public:
   double nhet ;
   double ngeno;
   double fis  ;
+  double hfrq ;
   
   vector<int> genoIndex;
+  vector<string> gts ;
   vector< vector < double > > genoLikelihoods;
   vector< vector < double > > genoLikelihoodsCDF;
 
@@ -78,6 +80,13 @@ public:
   gl(void);
   double unphred(map< string, vector<string> > & geno, int index);
 };
+
+class gp : public genotype{
+public:
+  gp(void);
+  double unphred(map< string, vector<string> > & geno, int index);
+};
+
 
 class pl : public genotype{
 public:

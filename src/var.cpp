@@ -24,6 +24,7 @@ gl::gl(void){
   nhet  = 0;
   ngeno = 0;
   fis   = 0;
+  hfrq  = 0;
 
   alpha = 0.01;
   beta  = 0.01;
@@ -38,6 +39,23 @@ pl::pl(void){
   nhet  = 0;
   ngeno = 0;
   fis   = 0;
+  hfrq  = 0;
+
+  alpha = 0.01;
+  beta  = 0.01;
+
+}
+
+gp::gp(void){
+  nalt  = 0;
+  nref  = 0;
+  af    = 0;
+  nhomr = 0;
+  nhoma = 0;
+  nhet  = 0;
+  ngeno = 0;
+  fis   = 0;
+  hfrq  = 0;
 
   alpha = 0.01;
   beta  = 0.01;
@@ -65,6 +83,12 @@ double gl::unphred(map< string, vector<string> > & geno, int index){
   double unphreded = atof(geno["GL"][index].c_str());
   return unphreded;
 }
+
+double gp::unphred(map< string, vector<string> > & geno, int index){
+  double unphreded = atof(geno["GP"][index].c_str());
+  return unphreded / -10;
+}
+
 
 double pl::unphred(map< string, vector<string> > & geno, int index){
   double unphreded = atof(geno["PL"][index].c_str());
@@ -167,8 +191,10 @@ void genotype::loadPop( vector< map< string, vector<string> > >& group, string s
   vector< map< string, vector<string> > >::iterator targ_it = group.begin();
 
   for(; targ_it != group.end(); targ_it++){
-
+        
     string genotype = (*targ_it)["GT"].front();
+
+    gts.push_back(genotype);
 
     vector<double> phreds;
     vector<double> phredsCDF;
@@ -214,6 +240,10 @@ void genotype::loadPop( vector< map< string, vector<string> > >& group, string s
 
     genoLikelihoods.push_back(phreds);
     genoLikelihoodsCDF.push_back(phredsCDF);
+
+    if(genotype == "./0" || genotype == "./1"){
+      genotype = "./.";
+    }
 
     while(1){
       if(genotype == "./."){
@@ -272,7 +302,7 @@ void genotype::loadPop( vector< map< string, vector<string> > >& group, string s
         genoIndex.push_back(2);
         break;
       }
-      cerr << "FATAL: unknown genotype" << endl;
+      cerr << "FATAL: unknown genotype: " << genotype << endl;
       exit(1);
     }
   }
@@ -292,5 +322,6 @@ void genotype::loadPop( vector< map< string, vector<string> > >& group, string s
       fis = 0.00001;
     }
   }
+  hfrq = nhet / ngeno;
   npop = ngeno;
 }
