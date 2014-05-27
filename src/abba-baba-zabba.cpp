@@ -24,9 +24,11 @@ void printHelp(void){
   cerr << endl << endl;
   cerr << "INFO: help" << endl;
   cerr << "INFO: description:" << endl;
-  cerr << "     abba-baba-zabba calculates if the specified individuals confir to an abba, baba or baab topology" << endl;
+  cerr << "     abba-baba-zabba calculates the tree pattern for four indviduals." << endl;
+  cerr << "     This tool assumes reference is ancestral and ignores non abba-baba sites." << endl;
+  cerr << "     The output is a boolian value: 1 = true , 0 = false for abba and baba.   " << endl;
 
-  cerr << "Output : 5 columns :     "    << endl;
+  cerr << "Output : 4 columns :     "    << endl;
   cerr << "     1. seqid            "    << endl;
   cerr << "     2. position         "    << endl;
   cerr << "     3. abba             "    << endl;
