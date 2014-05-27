@@ -34,7 +34,7 @@ void printHelp(void){
   cerr << "     4. baba             "    << endl;
   cerr << "     5. baab             "    << endl;
 
-  cerr << "INFO: usage:  abba-baba-zabba --target 0,1,2,3,4,5,6,7 --background 11,12,13,16,17,19,22 --file my.vcf --deltaaf 0.1" << endl;
+  cerr << "INFO: usage:  abba-baba-zabba --tree 0,1,2,3 --file my.vcf --type PL" << endl;
   cerr << endl;
   cerr << "INFO: required: t,tree       -- a zero based comma seperated list of target individuals corrisponding to VCF columns" << endl;
   cerr << "INFO: required: f,file       -- a properly formatted VCF.                                                           " << endl;
@@ -77,7 +77,7 @@ void loadIndices(vector<int> tree, string set){
   
   vector<string>  indviduals = split(set, ",");
 
-  if(indviduals.size() > 4){
+  if(indviduals.size() < 4){
     cerr << "FATAL: the abba-baba requires four indviduals provided to the tree option" << endl;
     exit(1);
   }
