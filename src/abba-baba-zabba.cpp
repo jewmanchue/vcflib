@@ -26,13 +26,11 @@ void printHelp(void){
   cerr << "INFO: description:" << endl;
   cerr << "     abba-baba-zabba calculates if the specified individuals confir to an abba, baba or baab topology" << endl;
 
-
   cerr << "Output : 5 columns :     "    << endl;
   cerr << "     1. seqid            "    << endl;
   cerr << "     2. position         "    << endl;
   cerr << "     3. abba             "    << endl;
   cerr << "     4. baba             "    << endl;
-  cerr << "     5. baab             "    << endl;
 
   cerr << "INFO: usage:  abba-baba-zabba --tree 0,1,2,3 --file my.vcf --type PL" << endl;
   cerr << endl;
