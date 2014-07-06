@@ -18,13 +18,16 @@ OBJECTS= $(SOURCES:.cpp=.o)
 #vcfstats.cpp
 
 BIN_SOURCES = src/vcfecho.cpp \
-			  src/bFst.cpp \
-			  src/abba-baba-zabba.cpp \
+			  src/hmm.cpp \
+			  src/hapLrt.cpp \
+			  src/sequenceDiversity.cpp \
 			  src/cqf.cpp \
+#			  src/bFst.cpp \
+			  src/abba-baba-zabba.cpp \
 			  src/LD.cpp \
 			  src/wcFst.cpp \
 			  src/phaseHHr.cpp \
-			  src/XPEHH.cpp \
+			  src/xpEHH.cpp \
 			  src/iHS.cpp \
 			  src/smoother.cpp \
 			  src/pFst.cpp \
