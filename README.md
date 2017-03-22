@@ -1,1 +1,2 @@
-# EVERYTHING, except the wiki, lives in VCFLIB.
+# DO NOT USE THIS VERSION OF VCFLIB, except for the wiki.  This fork has been merged.
+
